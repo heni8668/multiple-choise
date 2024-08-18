@@ -30,6 +30,18 @@ function App() {
         { id: 4, text: "5000", isCorrect: false },
       ],
     },
+    {
+      text: "Solve the following puzzle?",
+      image:
+        "https://winthropdc.wordpress.com/wp-content/uploads/2020/08/clock-calculator-lightbulb-puzzle.jpg",
+      options: [
+        { id: 0, text: "50", isCorrect: false },
+        { id: 1, text: "20", isCorrect: false },
+        { id: 2, text: "25", isCorrect: false },
+        { id: 3, text: "32", isCorrect: true },
+        { id: 4, text: "22", isCorrect: false },
+      ],
+    },
 
     // Added fruit puzzle question
     {
