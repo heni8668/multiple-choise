@@ -7,18 +7,17 @@ function App() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
   const [startTime, setStartTime] = useState(null);
-  const [endTime, setEndTime] = useState(null);
   const [timeTaken, setTimeTaken] = useState(null);
 
-const startQuiz = () => {
-  setStartTime(new Date());
-};
+  useEffect(() => {
+    if (startTime === null) {
+      setStartTime(performance.now()); // Start timing when the component mounts
+    }
+  }, [startTime]);
 
-useEffect(() => {
-  if (startTime === null) {
-    setStartTime(performance.now()); // Start timing when the component mounts
-  }
-}, [startTime]);
+
+
+
 
   const questions = [
     {
@@ -37,11 +36,11 @@ useEffect(() => {
       text: "Solve the following puzzle?",
       image: "/assets/fruit1.jpg",
       options: [
-        { id: 0, text: "1000", isCorrect: false },
-        { id: 1, text: "2000", isCorrect: false },
-        { id: 2, text: "3000", isCorrect: false },
-        { id: 3, text: "4000", isCorrect: true },
-        { id: 4, text: "5000", isCorrect: false },
+        { id: 0, text: "100", isCorrect: false },
+        { id: 1, text: "250", isCorrect: false },
+        { id: 2, text: "300", isCorrect: false },
+        { id: 3, text: "175", isCorrect: true },
+        { id: 4, text: "500", isCorrect: false },
       ],
     },
     {
@@ -125,27 +124,24 @@ useEffect(() => {
     if (currentQuestionIndex + 1 < questions.length) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
     } else {
-      const endTime = new Date();
-      setEndTime(endTime);
-
-      const duration = endTime - startTime;
+      const duration = performance.now() - startTime; // Calculate the duration
       setTimeTaken(duration);
       setShowResults(true);
     }
-  }
+  };
   //reset the game and back to default
   const restartGame = () => {
     setScore(0);
     setCurrentQuestionIndex(0);
     setShowResults(false);
     setTimeTaken(null);
-    startQuiz();
+    setStartTime(performance.now()); 
   };
 
   const formatTimeTaken = (duration) => {
     const minutes = Math.floor(duration / 60000);
     const seconds = Math.floor((duration % 60000) / 1000);
-    const microseconds = (duration % 1000) * 1000;
+    const microseconds = Math.floor((duration % 1000) * 1000);
 
     return `${minutes} minutes, ${seconds} seconds, and ${microseconds} microseconds`;
   };
