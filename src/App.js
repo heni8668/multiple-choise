@@ -6,6 +6,14 @@ function App() {
   const [showResults, setShowResults] = useState(false);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
+  const [startTime, setStartTime] = useState(null);
+  const [endTime, setEndTime] = useState(null);
+  const [timeTaken, setTimeTaken] = useState(null);
+
+const startQuiz = () => {
+  setStartTime(new Date());
+};
+
   const questions = [
     {
       text: "What is the capital of America?",
@@ -17,6 +25,17 @@ function App() {
         { id: 2, text: "Santa Fe", isCorrect: false },
         { id: 3, text: "Washington DC", isCorrect: true },
         { id: 4, text: "Los Angeles", isCorrect: false },
+      ],
+    },
+    {
+      text: "Solve the following puzzle?",
+      image: "/assets/fruit1.jpg",
+      options: [
+        { id: 0, text: "1000", isCorrect: false },
+        { id: 1, text: "2000", isCorrect: false },
+        { id: 2, text: "3000", isCorrect: false },
+        { id: 3, text: "4000", isCorrect: true },
+        { id: 4, text: "5000", isCorrect: false },
       ],
     },
     {
@@ -62,59 +81,6 @@ function App() {
       },
       correctAnswer: 1500, // Calculation of apple + banana + cherry + pineapple
     },
-    // Fruit Puzzle 2
-    {
-      text: "If 🍇 + 🍇 + 🍇 + 🍇 = 800, 🍉 + 🍇 + 🍇 = 600, what is 🍉 + 🍇 + 🍏 + 🍍?",
-      options: [
-        { id: 0, text: "1000", isCorrect: false },
-        { id: 1, text: "1100", isCorrect: true },
-        { id: 2, text: "900", isCorrect: false },
-        { id: 3, text: "1200", isCorrect: false },
-        { id: 4, text: "1800", isCorrect: false },
-      ],
-      fruits: {
-        grape: 200, // 🍇
-        watermelon: 400, // 🍉
-        apple: 250, // 🍏
-        pineapple: 250, // 🍍
-      },
-      correctAnswer: 1100,
-    },
-    // Fruit Puzzle 3
-    {
-      text: "If 🍓 + 🍓 + 🍓 + 🍓 = 400, 🍊 + 🍓 + 🍓 = 350, what is 🍊 + 🍓 + 🍑 + 🍍?",
-      options: [
-        { id: 0, text: "700", isCorrect: false },
-        { id: 1, text: "800", isCorrect: true },
-        { id: 2, text: "600", isCorrect: false },
-        { id: 3, text: "750", isCorrect: false },
-        { id: 4, text: "950", isCorrect: false },
-      ],
-      fruits: {
-        strawberry: 100, // 🍓
-        orange: 150, // 🍊
-        peach: 200, // 🍑
-        pineapple: 350, // 🍍
-      },
-      correctAnswer: 800,
-    },
-    // Fruit Puzzle 4
-    {
-      text: "If 🍍 + 🍍 + 🍍 + 🍍 = 1600, 🍎 + 🍌 + 🍍 = 1100, what is 🍎 + 🍌 + 🍏 + 🍍?",
-      options: [
-        { id: 0, text: "1350", isCorrect: true },
-        { id: 1, text: "1450", isCorrect: false },
-        { id: 2, text: "1250", isCorrect: false },
-        { id: 3, text: "1400", isCorrect: false },
-        { id: 4, text: "2000", isCorrect: false },
-      ],
-      fruits: {
-        pineapple: 400, // 🍍
-        apple: 350, // 🍏
-        banana: 250, // 🍌
-      },
-      correctAnswer: 1350,
-    },
 
     // Question with Image
     {
@@ -153,6 +119,11 @@ function App() {
     if (currentQuestionIndex + 1 < questions.length) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
     } else {
+      const endTime = new Date();
+      setEndTime(endTime);
+
+      const duration = endTime - startTime;
+      setTimeTaken(duration);
       setShowResults(true);
     }
   }
@@ -161,13 +132,22 @@ function App() {
     setScore(0);
     setCurrentQuestionIndex(0);
     setShowResults(false);
+    setTimeTaken(null);
+    startQuiz();
   };
+
+  const formatTimeTaken = (duration) => {
+    const minutes = Math.floor(duration / 60000);
+    const seconds = Math.floor((duration % 60000) / 1000);
+    const microseconds = (duration % 1000) * 1000;
+
+    return `${minutes} minutes, ${seconds} seconds, and ${microseconds} microseconds`;
+  };
+
   return (
     <div className="App">
       {/* Header */}
       <h1 className="title">Welcome To Online Question and Answer</h1>
-
-     
 
       {/* Show the final result or show the questions conditionally */}
 
@@ -178,15 +158,14 @@ function App() {
             Congratulations, you answered {score} out of {questions.length}{" "}
             questions correctly!
           </h3>
+          {timeTaken && <h3>Time taken: {formatTimeTaken(timeTaken)}</h3>}
           <button onClick={() => restartGame()}>Play Again</button>
         </div>
       ) : (
         // question card
         <div className="question-card">
           {/* current question */}
-          <h2>
-            Question: {currentQuestionIndex + 1} 
-          </h2>
+          <h2>Question: {currentQuestionIndex + 1}</h2>
           <h3 className="question-text">
             {questions[currentQuestionIndex].text}
           </h3>
@@ -200,8 +179,6 @@ function App() {
                 className="question-image"
               />
             )}
-
-          
 
             <div className="answers">
               {questions[currentQuestionIndex].options.map((option) => {
