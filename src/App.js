@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 
 function App() {
@@ -13,6 +13,12 @@ function App() {
 const startQuiz = () => {
   setStartTime(new Date());
 };
+
+useEffect(() => {
+  if (startTime === null) {
+    setStartTime(performance.now()); // Start timing when the component mounts
+  }
+}, [startTime]);
 
   const questions = [
     {
@@ -63,24 +69,24 @@ const startQuiz = () => {
     },
 
     // Added fruit puzzle question
-    {
-      text: "If 🍎 + 🍎 + 🍎 + 🍎 = 1000, 🍌 + 🍒 + 🍒 = 500, what is 🍎 + 🍌 + 🍒 + 🍍?",
-      image: "",
-      options: [
-        { id: 0, text: "1500", isCorrect: true },
-        { id: 1, text: "1200", isCorrect: false },
-        { id: 2, text: "1000", isCorrect: false },
-        { id: 3, text: "800", isCorrect: false },
-        { id: 4, text: "2000", isCorrect: false },
-      ],
-      fruits: {
-        apple: 250, // 🍎
-        banana: 200, // 🍌
-        cherry: 150, // 🍒
-        pineapple: 400, // 🍍
-      },
-      correctAnswer: 1500, // Calculation of apple + banana + cherry + pineapple
-    },
+    // {
+    //   text: "If 🍎 + 🍎 + 🍎 + 🍎 = 1000, 🍌 + 🍒 + 🍒 = 500, what is 🍎 + 🍌 + 🍒 + 🍍?",
+    //   image: "",
+    //   options: [
+    //     { id: 0, text: "1500", isCorrect: true },
+    //     { id: 1, text: "1200", isCorrect: false },
+    //     { id: 2, text: "1000", isCorrect: false },
+    //     { id: 3, text: "800", isCorrect: false },
+    //     { id: 4, text: "2000", isCorrect: false },
+    //   ],
+    //   fruits: {
+    //     apple: 250, // 🍎
+    //     banana: 200, // 🍌
+    //     cherry: 150, // 🍒
+    //     pineapple: 400, // 🍍
+    //   },
+    //   correctAnswer: 1500, // Calculation of apple + banana + cherry + pineapple
+    // },
 
     // Question with Image
     {
