@@ -67,25 +67,7 @@ function App() {
       ],
     },
 
-    // Added fruit puzzle question
-    // {
-    //   text: "If 🍎 + 🍎 + 🍎 + 🍎 = 1000, 🍌 + 🍒 + 🍒 = 500, what is 🍎 + 🍌 + 🍒 + 🍍?",
-    //   image: "",
-    //   options: [
-    //     { id: 0, text: "1500", isCorrect: true },
-    //     { id: 1, text: "1200", isCorrect: false },
-    //     { id: 2, text: "1000", isCorrect: false },
-    //     { id: 3, text: "800", isCorrect: false },
-    //     { id: 4, text: "2000", isCorrect: false },
-    //   ],
-    //   fruits: {
-    //     apple: 250, // 🍎
-    //     banana: 200, // 🍌
-    //     cherry: 150, // 🍒
-    //     pineapple: 400, // 🍍
-    //   },
-    //   correctAnswer: 1500, // Calculation of apple + banana + cherry + pineapple
-    // },
+   
 
     // Question with Image
     {
@@ -129,6 +111,7 @@ function App() {
       setShowResults(true);
     }
   };
+  
   //reset the game and back to default
   const restartGame = () => {
     setScore(0);
